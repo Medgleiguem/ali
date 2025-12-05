@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mission Nuit de l'Info - Élément Rétro-Gaming</title>
+    <!-- Inline SVG favicon to avoid extra files -->
+    <link rel="icon" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' fill='%230a0a2a'/><g transform='translate(8,8) scale(0.75)'><rect x='8' y='12' width='40' height='28' rx='4' fill='%23D2691E'/><rect x='12' y='16' width='32' height='20' fill='%238B4513'/><rect x='8' y='10' width='40' height='4' fill='%23DAA520'/><rect x='44' y='20' width='4' height='12' fill='%23D2691E'/></g></svg>">
+   <style>
+
+body {
+            background-color: #0a0a2a;
+            color: #f0f0f0;
+            line-height: 1.6;
+            padding: 20px;
+             
+               
+          /* background-size: 40px 40px;  */
+            background-position: 0 0, 20px 20px;
+        }
+
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Courier New', monospace;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 30px;
+        }
+        .content {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            width: 100%;
+        }
+        .game-section {
+            
+            flex: 2;
+            min-width: 300px;
+            background-color: rgba(10, 10, 40, 0.5);
+            border: 4px solid #ff3355;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 0 20px rgba(255, 51, 85, 0.4);
+        }
+header {
+            text-align: center;
+            padding: 20px;
+            width: 100%;
+            background-color: rgba(20, 20, 60, 0.7);
+            border: 4px solid #4a4aff;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(74, 74, 255, 0.5);
+        }
+        h1 {
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+            color: #4a4aff;
+            text-shadow: 3px 3px 0 #000;
+            letter-spacing: 2px;
+        }
+        .subtitle {
+            font-size: 1.2rem;
+            color: #ffcc00;
+            margin-bottom: 15px;
+        }
+        .info-section {
+            flex: 1;
+            min-width: 250px;
+            background-color: rgba(20, 20, 60, 0.7);
+            border: 4px solid #00cc88;
+            border-radius: 8px;
+            padding: 20px;
+        }
+.game-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            height: 500px;
+            background-color:  rgba(20, 20, 60, 0.5);
+            border: 2px solid #555;
+            overflow: hidden;
+            image-rendering: pixelated;
+            image-rendering: crisp-edges;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        #gameCanvas {
+            display: block;
+            width: 100%;
+            height: auto;
+            image-rendering: pixelated;
+            image-rendering: crisp-edges;
+        }
+        .game-ui {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            padding: 10px;
+            background-color:  rgba(20, 20, 60, 0.4);
+            border: 2px solid #555;
+            border-radius: 4px;
+        }
+        .ui-label {
+            font-size: 0.9rem;
+            color: #ffcc00;
+            margin-bottom: 5px;
+        }
+        .ui-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #4a4aff;
+        }
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        .btn {
+            padding: 12px 24px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            background-color: #1818e4;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .btn:hover {
+             background-color: #1818e4;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(255, 51, 85, 0.4);
+        }
+        .btn:active {
+            transform: translateY(1px);
+        }
+        .btn-start {
+            background-color: #00eeaa;
+            box-shadow: 0 4px 8px rgba(0, 204, 136, 0.4);
+            padding: 12px 24px;
+            font-size: 1.1rem;
+            font-weight: bold;
+             color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+.btn-start:hover{
+     transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(255, 51, 85, 0.4);
+             background-color: #00eeaa;
+}
+
+.pauseBtn {
+ padding: 12px 24px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            background-color: #df1616;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+
+}
+.retro-border {
+            border: 8px solid;
+            border-image: repeating-linear-gradient(45deg, #4a4aff, #ff3355 10px, #00cc88 20px) 10;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        .pixel-art {
+            image-rendering: pixelated;
+            image-rendering: crisp-edges;
+        }
+        h2 {
+            color: #ffcc00;
+            margin-bottom: 15px;
+            font-size: 1.8rem;
+            text-shadow: 2px 2px 0 #000;
+        }
+        p {
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+        .pixel-list {
+            list-style-type: none;
+            margin-left: 20px;
+        }
+        .pixel-list li {
+            margin-bottom: 10px;
+            position: relative;
+            padding-left: 25px;
+        }
+        .pixel-list li:before {
+            content: "◉";
+            color: #4a4aff;
+            position: absolute;
+            left: 0;
+            font-size: 1.2rem;
+        }
+      .game-object {
+            position: absolute;
+            image-rendering: pixelated;
+        }
+        .instructions {
+            background-color: rgba(0, 0, 30, 0.5);
+            padding: 15px;
+            border-radius: 4px;
+            margin-top: 20px;
+            border-left: 4px solid #ffcc00;
+        }
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            padding: 20px;
+            width: 100%;
+            background-color: rgba(20, 20, 60, 0.7);
+            border: 2px solid #555;
+            border-radius: 8px;
+            color: #aaa;
+            font-size: 0.9rem;
+        }
+        
+@media (max-width: 768px) {
+            .content {
+                flex-direction: column;
+            }
+        }
+        .game-container {
+                height: 400px;
+            }
+            h1 {
+                font-size: 2rem;
+            }
+
+   </style>
+</head>
+<body background="back ground.png">
+    
+
+
+    <div>
+    <div class="container">
+        <header>
+            <h1>MISSION NUIT DE L'INFO</h1>
+            <div class="subtitle">Élément Rétro-Gaming - Style 8-bits</div>
+            <p>Plongez dans l'univers du rétro-gaming avec ce mini-jeu spécialement créé pour le défi national</p>
+        </header>
+        
+        <div class="content" >
+            <section class="game-section" >
+                <h2>▶ LE DÉFI : On veut du gros pixel ! ✨🎮👾🕹️</h2>
+                <div class="retro-border">
+                    <div class="game-ui">
+                        <div class="ui-element">
+                            <div class="ui-label">TOP SCORE</div>
+                            <div class="ui-value" id="topScore">00000</div>
+                        </div>
+                        <div class="ui-element">
+                            <div class="ui-label">SCORE</div>
+                            <div class="ui-value" id="score">00000</div>
+                        </div>
+                        <div class="ui-element">
+                            <div class="ui-label">NIVEAU</div>
+                            <div class="ui-value" id="level">01</div>
+                        </div>
+                        <div class="ui-element">
+                            <div class="ui-label">BUGS RESTANTS</div>
+                            <div class="ui-value" id="bugs">10</div>
+                        </div>
+                        <div class="ui-element">
+                            <div class="ui-label">VIES</div>
+                            <div class="ui-value" id="lives">3</div>
+                        </div>
+                    </div>
+                    
+                    <div class="game-container" id="gameContainer">
+                        <!-- Le jeu sera généré par JavaScript -->
+                        <canvas id="gameCanvas" width="800" height="450"></canvas>
+                    </div>
+                    
+                    <div class="controls">
+                        <button class="btn-start" id="startBtn">START</button>
+                        <button  id="pauseBtn" class="pauseBtn" >PAUSE</button>
+                        <button class="btn" id="resetBtn">RESET</button>
+                        <button class="btn" id="helpBtn">AIDE</button>
+                    </div>
+                </div>
+            </section>
+            
+            <section class="info-section">
+                <h2>ℹ À PROPOS</h2>
+                <p>Cet élément rétro-gaming a été spécialement conçu pour s'intégrer au thème de la Nuit de l'Info.</p>
+                
+                <div class="instructions">
+                    <h3>🎮 COMMENT JOUER</h3>
+                    <p>Utilisez les touches <strong>← →</strong> pour déplacer le codeur.</p>
+                    <p>Appuyez sur <strong>ESPACE</strong> pour Tirer les bugs.</p>
+                    <p>tirez tous les bugs et collecter les cafés pour gagner des points. Tirez sur les bugs (rouges) avant qu'ils n'atteignent le fond ! .</p>
+                </div>
+                
+                <h3>🎯 OBJECTIF</h3>
+                <ul class="pixel-list">
+                    <li>Atteindre le plus haut score possible</li>
+                    <li>Atteint le plus haut niveau possible</li>
+                </ul>
+                
+                <h3>🔧 TECHNOLOGIES</h3>
+                <p>Cet élément utilise :</p>
+                <ul class="pixel-list">
+                    <li>HTML5 Canvas pour le rendu pixel art</li>
+                    <li>CSS avec style rétro 8-bits</li>
+                    <li>JavaScript pour la logique de jeu</li>
+                </ul>
+            </section>
+        </div>
+        
+        <footer>
+            <p>Élément rétro-gaming créé pour le Défi National de la Nuit de l'Info - Thème: "Plongez dans l'univers du rétro-gaming"</p>
+            <p>Style inspiré des jeux d'arcade des années 80 et 90</p>
+        </footer>
+    </div>
+    </div>
+
+    <script>
+        // Éléments du DOM
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        const scoreElement = document.getElementById('score');
+        const topScoreElement = document.getElementById('topScore');
+        const levelElement = document.getElementById('level');
+        const bugsElement = document.getElementById('bugs');
+        const livesElement = document.getElementById('lives');
+        const startBtn = document.getElementById('startBtn');
+        const pauseBtn = document.getElementById('pauseBtn');
+        const resetBtn = document.getElementById('resetBtn');
+        const helpBtn = document.getElementById('helpBtn');
+        
+        // Variables du jeu
+        let gameRunning = false;
+        let gamePaused = false;
+        let score = 0;
+        let topScore = 0;
+        let level = 1;
+        let bugsLeft = 10;
+        let lives = 10;
+        let gameTime = 0;
+        let lastShotTime = 0; // Cooldown pour les tirs
+        let spaceKeyPressed = false; // Track if space key was just pressed
+        let bugsKilled = 0; // Track bugs killed in current level
+        let bugsNeeded = 10; // Bugs needed to advance
+        let lastLevelUpTime = -1000; // Prevent rapid level ups
+        
+        // Variables pour les contrôles
+        let leftPressed = false;
+        let rightPressed = false;
+        let spacePressed = false;
+        
+        // Dimensions du jeu
+        const GAME_WIDTH = 800;
+        const GAME_HEIGHT = 450;
+        
+        // Éléments du jeu
+        const player = {
+            x: GAME_WIDTH / 2 - 25,
+            y: GAME_HEIGHT - 50, // lowered 10px so player sits a bit lower
+            width: 50,
+            height: 30,
+            speed: 2.8,
+            color: '#4a1aff'
+        };
+        
+        // Bugs (ennemis)
+        let bugs = [];
+        // Cafés (bonus)
+        let coffees = [];
+        // Corrections (tirs)
+        let fixes = [];
+        
+        // Initialisation du jeu
+        function initGame() {
+            // Note: topScore is preserved during the session and only resets on page reload
+            score = 0;
+            level = 1;
+            bugsKilled = 0;
+            bugsNeeded = 10;
+            lastLevelUpTime = -1000;
+            lives = 10;
+            gameTime = 5;
+            
+            bugs = [];
+            coffees = [];
+            fixes = [];
+            
+            player.x = GAME_WIDTH / 2 - 25;
+            
+            // Créer des bugs initiaux
+            for (let i = 0; i < 5; i++) {
+                createBug();
+            }
+            
+            updateUI();
+        }
+        
+        // Créer un bug
+        function createBug() {
+            const bugType = Math.floor(Math.random() * 3); // 0: normal, 1: critique, 2: mineur
+            const colors = ['#00cc88', '#ff3355', '#ffcc00'];
+            const sizes = [20, 30, 15];
+            const speeds = [1.5, 2.0, 1.0];
+            
+            bugs.push({
+                x: Math.random() * (GAME_WIDTH - 30),
+                y: Math.random() * 200,
+                width: sizes[bugType],
+                height: sizes[bugType],
+                color: colors[bugType],
+                speed: speeds[bugType],
+                type: bugType,
+                dx: (Math.random() - 0.5) * 2,
+                dy: Math.random() * 0.5 + 0.5
+            });
+        }
+        
+        // Créer un café (bonus)
+        function createCoffee() {
+            coffees.push({
+                x: Math.random() * (GAME_WIDTH - 20),
+                y: 0,
+                width: 15,
+                height: 20,
+                color: '#ffcc00',
+                speed: 3
+            });
+        }
+        
+        // Tirer une correction (tir du joueur)
+        function shootFix() {
+            fixes.push({
+                x: player.x + player.width / 2 - 3,
+                y: player.y,
+                width: 6,
+                height: 15,
+                color: '#ffffff',
+                speed: 7
+            });
+        }
+        
+        // Dessiner le joueur
+        function drawPlayer() {
+            // Corps du joueur
+            ctx.fillStyle = player.color;
+            ctx.fillRect(player.x, player.y, player.width, player.height);
+            
+            // Détails pixel art
+            ctx.fillStyle = '#ffffff';
+            // Yeux
+            ctx.fillRect(player.x + 10, player.y + 10, 5, 5);
+            ctx.fillRect(player.x + player.width - 15, player.y + 10, 5, 5);
+            
+            // Écran d'ordinateur (rectangle au centre)
+            ctx.fillStyle = '#00ff00';
+            ctx.fillRect(player.x + 15, player.y + 5, player.width - 30, 15);
+            
+            // Texte sur l'écran
+            ctx.fillStyle = '#000000';
+            ctx.font = '8px "Courier New"';
+            ctx.fillText("CODE", player.x + 20, player.y + 15);
+        }
+        
+        // Dessiner un bug
+        function drawBug(bug) {
+            ctx.fillStyle = bug.color;
+            ctx.fillRect(bug.x, bug.y, bug.width, bug.height);
+            
+            // Détails du bug
+            ctx.fillStyle = '#000000';
+            // Antennes
+            ctx.fillRect(bug.x + bug.width/2 - 1, bug.y - 3, 2, 3);
+            // Yeux
+            ctx.fillRect(bug.x + 5, bug.y + 5, 3, 3);
+            ctx.fillRect(bug.x + bug.width - 8, bug.y + 5, 3, 3);
+        }
+        
+        // Dessiner un café
+        function drawCoffee(coffee) {
+            // Draw cup body (brown/tan)
+            ctx.fillStyle = '#D2691E';
+            ctx.fillRect(coffee.x + 2, coffee.y + 3, coffee.width - 4, coffee.height - 5);
+            
+            // Draw coffee liquid inside (darker brown)
+            ctx.fillStyle = '#8B4513';
+            ctx.fillRect(coffee.x + 3, coffee.y + 5, coffee.width - 6, coffee.height - 8);
+            
+            // Draw cup rim (light brown)
+            ctx.fillStyle = '#DAA520';
+            ctx.fillRect(coffee.x + 2, coffee.y + 2, coffee.width - 4, 2);
+            
+            // Draw handle (curved line made of pixels)
+            ctx.fillStyle = '#D2691E';
+            ctx.fillRect(coffee.x + coffee.width - 2, coffee.y + 5, 3, 4);
+            ctx.fillRect(coffee.x + coffee.width - 1, coffee.y + 4, 2, 1);
+            ctx.fillRect(coffee.x + coffee.width, coffee.y + 9, 1, 1);
+            
+            // Vapeur (steam)
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.6)';
+            ctx.fillRect(coffee.x + coffee.width/2 - 2, coffee.y - 4, 2, 3);
+            ctx.fillRect(coffee.x + coffee.width/2 + 1, coffee.y - 5, 2, 2);
+        }
+        
+        // Dessiner une correction (tir)
+        function drawFix(fix) {
+            ctx.fillStyle = fix.color;
+            ctx.fillRect(fix.x, fix.y, fix.width, fix.height);
+            
+            // Effet de lumière
+            ctx.fillStyle = '#4a4aff';
+            ctx.fillRect(fix.x - 1, fix.y + 2, fix.width + 2, fix.height - 4);
+        }
+        
+        // Mettre à jour l'interface utilisateur
+        function updateUI() {
+            scoreElement.textContent = score.toString().padStart(5, '0');
+            topScoreElement.textContent = topScore.toString().padStart(5, '0');
+            levelElement.textContent = level.toString().padStart(2, '0');
+            bugsElement.textContent = bugsKilled + '/' + bugsNeeded;
+            livesElement.textContent = lives;
+        }
+        
+        // Dessiner l'arrière-plan
+        function drawBackground() {
+            // Fond noir
+            ctx.fillStyle = '#000000';
+            ctx.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
+            
+            // Étoiles (effet pixel)
+            ctx.fillStyle = '#ffffff';
+            for (let i = 0; i < 50; i++) {
+                const x = Math.floor(Math.random() * GAME_WIDTH);
+                const y = Math.floor(Math.random() * GAME_HEIGHT);
+                ctx.fillRect(x, y, 1, 1);
+            }
+            
+            // Lignes de code qui défilent (effet de matrice)
+            ctx.fillStyle = '#00ff00';
+            ctx.font = '12px "Courier New"';
+            for (let i = 0; i < 10; i++) {
+                const x = Math.floor(Math.random() * GAME_WIDTH);
+                const text = Math.random() > 0.5 ? "if(bug){fix();}" : "while(true){code();}";
+                const alpha = 0.2 + Math.random() * 0.3;
+                ctx.globalAlpha = alpha;
+                ctx.fillText(text, x, Math.random() * GAME_HEIGHT);
+                ctx.globalAlpha = 1.0;
+            }
+            
+            // Sol
+            ctx.fillStyle = '#333333';
+            ctx.fillRect(0, GAME_HEIGHT - 10, GAME_WIDTH, 10);
+            
+            // Motif du sol
+            ctx.fillStyle = '#555555';
+            for (let i = 0; i < GAME_WIDTH; i += 20) {
+                ctx.fillRect(i, GAME_HEIGHT - 10, 10, 10);
+            }
+        }
+        
+        // Mettre à jour la logique du jeu
+        function updateGame() {
+            if (!gameRunning || gamePaused) return;
+            
+            gameTime++;
+            
+            // Déplacer le joueur
+            if (leftPressed && player.x > 0) {
+                player.x -= player.speed;
+            }
+            if (rightPressed && player.x < GAME_WIDTH - player.width) {
+                player.x += player.speed;
+            }
+            
+            // Ensure player stays within bounds absolutely
+            if (player.x < 0) player.x = 0;
+            if (player.x + player.width > GAME_WIDTH) player.x = GAME_WIDTH - player.width;
+            
+            // Tirer si espace pressé (cooldown de 5 frames)
+            if (spacePressed && gameTime - lastShotTime >= 5) {
+                shootFix();
+                lastShotTime = gameTime;
+            }
+            
+            // Réinitialiser le drapeau de nouvelle pression
+            spaceKeyPressed = false;
+            
+            // Mettre à jour les bugs
+            for (let i = bugs.length - 1; i >= 0; i--) {
+                const bug = bugs[i];
+                
+                // Déplacer le bug
+                bug.x += bug.dx;
+                bug.y += bug.dy;
+                
+                // Rebond sur les bords
+                if (bug.x <= 0 || bug.x >= GAME_WIDTH - bug.width) {
+                    bug.dx *= -1;
+                }
+                
+                // Si le bug ROUGE (critique) atteint le bas, le joueur perd une vie
+                if (bug.y >= GAME_HEIGHT - 20) {
+                    bugs.splice(i, 1);
+                    
+                    // Only lose a life if it's a red (critical) bug
+                    if (bug.type === 1) {
+                        lives--;
+                        
+                        if (lives <= 0) {
+                            gameOver();
+                            return;
+                        }
+                        
+                        updateUI();
+                    }
+                    
+                    continue;
+                }
+                
+                // Vérifier les collisions avec les corrections
+                for (let j = fixes.length - 1; j >= 0; j--) {
+                    const fix = fixes[j];
+                    
+                    if (fix.x < bug.x + bug.width &&
+                        fix.x + fix.width > bug.x &&
+                        fix.y < bug.y + bug.height &&
+                        fix.y + fix.height > bug.y) {
+                        
+                        // Collision détectée
+                        fixes.splice(j, 1);
+                        bugs.splice(i, 1);
+                        
+                        // Ajouter des points selon le type de bug
+                        const points = [100, 200, 50];
+                        score += points[bug.type];
+
+                        // Update top score if needed
+                        if (score > topScore) {
+                            topScore = score;
+                        }
+
+                        bugsKilled++;
+                        
+                        // Si assez de bugs ont été corrigés, passer au niveau suivant (with cooldown)
+                        if (bugsKilled >= bugsNeeded && gameTime - lastLevelUpTime > 60) {
+                            lastLevelUpTime = gameTime;
+                            levelUp();
+                        }
+                        
+                        updateUI();
+                        break;
+                    }
+                }
+            }
+            
+            // Mettre à jour les cafés
+            for (let i = coffees.length - 1; i >= 0; i--) {
+                const coffee = coffees[i];
+                
+                // Déplacer le café
+                coffee.y += coffee.speed;
+                
+                // Si le café atteint le bas
+                if (coffee.y >= GAME_HEIGHT - 20) {
+                    coffees.splice(i, 1);
+                    continue;
+                }
+                
+                // Vérifier les collisions avec le joueur
+                if (coffee.x < player.x + player.width &&
+                    coffee.x + coffee.width > player.x &&
+                    coffee.y < player.y + player.height &&
+                    coffee.y + coffee.height > player.y) {
+                    
+                    // Le joueur collecte le café
+                    coffees.splice(i, 1);
+                    score += 300;
+                    // Update top score if needed (session only)
+                    if (score > topScore) {
+                        topScore = score;
+                    }
+                    updateUI();
+                }
+            }
+            
+            // Mettre à jour les corrections
+            for (let i = fixes.length - 1; i >= 0; i--) {
+                const fix = fixes[i];
+                
+                // Déplacer la correction
+                fix.y -= fix.speed;
+                
+                // Si la correction sort de l'écran
+                if (fix.y < 0) {
+                    fixes.splice(i, 1);
+                }
+            }
+            
+            // Générer de nouveaux bugs occasionnellement (only if we haven't spawned enough)
+            if (Math.random() < 0.02 && bugs.length < 5 + level) {
+                createBug();
+            }
+            
+            // Générer des cafés occasionnellement
+            if (Math.random() < 0.01 && coffees.length < 3) {
+                createCoffee();
+            }
+        }
+        
+        // Passer au niveau suivant
+        function levelUp() {
+            level++;
+            bugsKilled = 0;
+            bugsNeeded = 10 + level * 2;
+            
+            // Augmenter la difficulté
+            player.speed = Math.min(player.speed + 0.5, 10);
+            
+            // Clear existing bugs and create fresh ones for new level
+            bugs = [];
+            
+            // Créer des bugs pour le nouveau niveau
+            for (let i = 0; i < 5 + level; i++) {
+                createBug();
+            }
+            
+            updateUI();
+        }
+        
+        // Fin du jeu
+        function gameOver() {
+            gameRunning = false;
+            alert(`GAME OVER\nScore final: ${score}\nNiveau atteint: ${level}\nMeilleur score: ${topScore}`);
+        }
+        
+        // Boucle de jeu
+        function gameLoop() {
+            updateGame();
+            draw();
+            
+            if (gameRunning) {
+                requestAnimationFrame(gameLoop);
+            }
+        }
+        
+        // Dessiner tout
+        function draw() {
+            drawBackground();
+            
+            // Dessiner les éléments du jeu
+            for (const bug of bugs) {
+                drawBug(bug);
+            }
+            
+            for (const coffee of coffees) {
+                drawCoffee(coffee);
+            }
+            
+            for (const fix of fixes) {
+                drawFix(fix);
+            }
+            
+            drawPlayer();
+            
+            // Afficher un message si pause
+            if (gamePaused) {
+                ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
+                ctx.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
+                
+                ctx.fillStyle = '#ffcc00';
+                ctx.font = '36px "Courier New"';
+                ctx.textAlign = 'center';
+                ctx.fillText("PAUSE", GAME_WIDTH/2, GAME_HEIGHT/2);
+                ctx.font = '18px "Courier New"';
+                ctx.fillText("Appuyez sur PAUSE pour reprendre", GAME_WIDTH/2, GAME_HEIGHT/2 + 40);
+                ctx.textAlign = 'left';
+            }
+        }
+        
+        // Événements clavier
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') leftPressed = true;
+            if (e.key === 'ArrowRight') rightPressed = true;
+            if (e.key === ' ') {
+                e.preventDefault(); // Prevent space from activating buttons
+                spacePressed = true;
+                shootFix(); // Always fire immediately on keydown
+                lastShotTime = gameTime;
+            }
+            if (e.key === 'p' || e.key === 'P') togglePause();
+        });
+        
+        document.addEventListener('keyup', (e) => {
+            if (e.key === 'ArrowLeft') leftPressed = false;
+            if (e.key === 'ArrowRight') rightPressed = false;
+            if (e.key === ' ') spacePressed = false;
+        });
+
+        // Reset keys when window loses focus to prevent stuck keys
+        window.addEventListener('blur', () => {
+            leftPressed = false;
+            rightPressed = false;
+            spacePressed = false;
+        });
+        
+        // Gestion des boutons
+        startBtn.addEventListener('click', () => {
+            if (!gameRunning) {
+                gameRunning = true;
+                gamePaused = false;
+                initGame();
+                gameLoop();
+                startBtn.textContent = "RESTART";
+            } else {
+                initGame();
+            }
+        });
+        
+        pauseBtn.addEventListener('click', togglePause);
+        
+        function togglePause() {
+            if (!gameRunning) return;
+            
+            gamePaused = !gamePaused;
+            pauseBtn.textContent = gamePaused ? "REPRENDRE" : "PAUSE";
+            
+            if (!gamePaused) {
+                gameLoop();
+            }
+        }
+        
+        resetBtn.addEventListener('click', () => {
+            gameRunning = false;
+            gamePaused = false;
+            initGame();
+            draw();
+            startBtn.textContent = "START";
+            pauseBtn.textContent = "PAUSE";
+        });
+        
+        helpBtn.addEventListener('click', () => {
+            alert("MISSION NUIT DE L'INFO\n\nCommandes :\n← → : Déplacer le codeur\nESPACE : Corriger les bugs\nP : Pause/Reprendre\n\nObjectif : tirez tous les bugs et collecter les cafés pour gagner des points. Tirez sur les bugs rouges avant qu'ils n'atteignent le fond !");
+        });
+        
+        // Initialisation
+        initGame();
+        draw();
+    </script>
+</body>
+</html>
